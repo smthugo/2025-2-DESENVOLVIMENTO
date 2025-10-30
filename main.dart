@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
 
   TextEditingController _weightController = TextEditingController();
   TextEditingController _heightController = TextEditingController();
-  String _result;
+  String _result = 'Informe seus dados';
 
   @override
   void initState() {
@@ -103,9 +103,9 @@ class _HomeState extends State<Home> {
   Padding buildCalculateButton() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 36.0),
-      child: RaisedButton(
+      child: ElevatedButton(
         onPressed: () {
-          if (_formKey.currentState.validate()) {
+          if (_formKey.currentState?.validate() ?? false) {
             calculateImc();
           }
         },
@@ -125,13 +125,15 @@ class _HomeState extends State<Home> {
   }
 
   TextFormField buildTextFormField(
-      {TextEditingController controller, String error, String label}) {
+      {TextEditingController? controller,
+      required String error,
+      required String label}) {
     return TextFormField(
       keyboardType: TextInputType.number,
       decoration: InputDecoration(labelText: label),
       controller: controller,
       validator: (text) {
-        return text.isEmpty ? error : null;
+        return (text?.isEmpty ?? true) ? error : null;
       },
     );
   }
